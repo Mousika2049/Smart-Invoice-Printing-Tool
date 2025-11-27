@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InvoiceProcessor.MainPage"
+             BackgroundColor="#0D1117"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Color x:Key="Cyan">#00D9FF</Color>
+        <Color x:Key="Purple">#A855F7</Color>
+        <Color x:Key="Pink">#EC4899</Color>
+        <Color x:Key="Lime">#84CC16</Color>
+        <Color x:Key="CardBg">#161B22</Color>
+        <Color x:Key="InputBg">#0D1117</Color>
+        <Color x:Key="TextPrimary">#E6EDF3</Color>
+        <Color x:Key="TextMuted">#7D8590</Color>
+        <Color x:Key="BorderColor">#30363D</Color>
+    </ContentPage.Resources>
+
+    <Grid Padding="20" RowSpacing="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Futuristic Header -->
+        <Grid Grid.Row="0">
+            <Border BackgroundColor="{StaticResource CardBg}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                
+                <Grid Padding="20,0" ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="16">
+                    <!-- Icon -->
+                    <Grid Grid.Column="0" WidthRequest="50" HeightRequest="50">
+                        <Ellipse Fill="{StaticResource Cyan}" Opacity="0.15"/>
+                        <Label Text="⚡" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Grid>
+                    
+                    <!-- Title -->
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                        <Label FontSize="18" FontAttributes="Bold">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Invoice" TextColor="{StaticResource TextPrimary}"/>
+                                    <Span Text="Processor" TextColor="{StaticResource Cyan}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label Text="智 能 发 票 合 并 系 统" 
+                               FontSize="11" 
+                               TextColor="{StaticResource TextMuted}"/>
+                    </VerticalStackLayout>
+                    
+                    
+                    
+                    <!-- Menu Dots -->
+                    <VerticalStackLayout Grid.Column="3" Spacing="4" VerticalOptions="Center">
+                        <Ellipse Fill="{StaticResource TextMuted}" WidthRequest="4" HeightRequest="4"/>
+                        <Ellipse Fill="{StaticResource TextMuted}" WidthRequest="4" HeightRequest="4"/>
+                        <Ellipse Fill="{StaticResource TextMuted}" WidthRequest="4" HeightRequest="4"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="1" ColumnDefinitions="420,*" ColumnSpacing="16">
+            
+            <!-- Left Panel: Controls -->
+            <Grid Grid.Column="0" RowDefinitions="*,Auto" RowSpacing="16">
+                
+                <!-- Settings Card -->
+                <Border BackgroundColor="{StaticResource CardBg}"
+                        Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="1"
+                        Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    
+                    <VerticalStackLayout Spacing="24">
+                        
+                        <!-- Folder Input Section -->
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" 
+                                       Text="发 票 源 文 件 夹" 
+                                       FontSize="15" 
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Cyan}"/>
+                            </Grid>
+                            
+                            <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                                <Entry Grid.Row="0"
+                                       x:Name="SourceFolderEntry"
+                                       Placeholder="No folder selected..."
+                                       PlaceholderColor="{StaticResource TextMuted}"
+                                       TextColor="{StaticResource TextPrimary}"
+                                       BackgroundColor="{StaticResource InputBg}"
+                                       FontFamily="Consolas"
+                                       FontSize="13"
+                                       HeightRequest="46"
+                                       IsReadOnly="True"/>
+                                
+                                <Button Grid.Row="1"
+                                        Text="选 择 文 件 夹 . . ."
+                                        Clicked="OnSelectFolderClicked"
+                                        TextColor="{StaticResource Cyan}"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="{StaticResource Cyan}"
+                                        BorderWidth="1.5"
+                                        FontSize="15"
+                                        FontAttributes="Bold"
+                                        HeightRequest="42"
+                                        CornerRadius="8"/>
+                            </Grid>
+                            
+                            <Border BackgroundColor="#1C2128"
+                                    Stroke="{StaticResource BorderColor}"
+                                    StrokeThickness="1"
+                                    Padding="12,8">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6"/>
+                                </Border.StrokeShape>
+                                <Label x:Name="FileCountLabel"
+                                       Text="⟨ Awaiting input ⟩"
+                                       FontSize="13"
+                                       TextColor="{StaticResource TextMuted}"
+                                       FontFamily="Consolas"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        
+                        <!-- Separator -->
+                        <Grid>
+                            <Line X1="0" X2="1000" 
+                                  Stroke="{StaticResource BorderColor}" 
+                                  StrokeThickness="1"
+                                  VerticalOptions="Center"/>
+                            <Border WidthRequest="60" 
+                                    HeightRequest="20"
+                                    BackgroundColor="{StaticResource CardBg}"
+                                    HorizontalOptions="Center">
+                                <Label Text="⚙" 
+                                       FontSize="12" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       TextColor="{StaticResource Purple}"/>
+                            </Border>
+                        </Grid>
+                        
+                        <!-- Printer Section -->
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" 
+                                       Text="打 印 机 配 置" 
+                                       FontSize="15" 
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Purple}"/>
+                            </Grid>
+                            
+                            <Entry x:Name="PrinterNameEntry"
+                                   Placeholder="系 统 默 认 打 印 机"
+                                   PlaceholderColor="{StaticResource TextMuted}"
+                                   TextColor="{StaticResource TextPrimary}"
+                                   BackgroundColor="{StaticResource InputBg}"
+                                   FontSize="13"
+                                   HeightRequest="46"/>
+                            
+                            <Border BackgroundColor="#1C2128"
+                                    Stroke="{StaticResource BorderColor}"
+                                    StrokeThickness="1"
+                                    Padding="10,6">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6"/>
+                                </Border.StrokeShape>
+                                <Label Text="↳ Optional: Leave blank for default"
+                                       FontSize="13"
+                                       TextColor="{StaticResource TextMuted}"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Execute Button -->
+                <Button Grid.Row="1"
+                        Text="⚡ 开 始 合 并 处 理"
+                        Clicked="OnProcessAndPrintClicked"
+                        TextColor="#0D1117"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        HeightRequest="58"
+                        CornerRadius="10">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="{StaticResource Cyan}" Offset="0.0"/>
+                            <GradientStop Color="{StaticResource Purple}" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </Grid>
+            
+            <!-- Right Panel: Terminal -->
+            <Border Grid.Column="1"
+                    BackgroundColor="#010409"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1"
+                    Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                
+                <Grid RowDefinitions="Auto,*">
+                    <!-- Terminal Header -->
+                    <Border Grid.Row="0" 
+                            BackgroundColor="{StaticResource CardBg}"
+                            Padding="16,10">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                            <HorizontalStackLayout Grid.Column="0" Spacing="6">
+                                <Ellipse Fill="#FF5F56" WidthRequest="11" HeightRequest="11"/>
+                                <Ellipse Fill="#FFBD2E" WidthRequest="11" HeightRequest="11"/>
+                                <Ellipse Fill="#27C93F" WidthRequest="11" HeightRequest="11"/>
+                            </HorizontalStackLayout>
+                            
+                            <Label Grid.Column="1"
+                                   Text="~/processor/output.log"
+                                   HorizontalOptions="Center"
+                                   TextColor="{StaticResource TextMuted}"
+                                   FontSize="11"
+                                   FontFamily="Consolas"
+                                   VerticalOptions="Center"/>
+                            
+                  
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Terminal Content -->
+                    <ScrollView Grid.Row="1" Padding="16">
+                        <VerticalStackLayout Spacing="4">
+                            <Label TextColor="{StaticResource TextMuted}" FontFamily="Consolas" FontSize="11">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="┌─[" TextColor="{StaticResource Cyan}"/>
+                                        <Span Text="InvoiceProcessor" TextColor="{StaticResource Purple}"/>
+                                        <Span Text="@" TextColor="{StaticResource TextMuted}"/>
+                                        <Span Text="system" TextColor="{StaticResource Lime}"/>
+                                        <Span Text="]" TextColor="{StaticResource Cyan}"/>
+                                        <Span Text="─[" TextColor="{StaticResource Cyan}"/>
+                                        <Span Text="~" TextColor="{StaticResource Purple}"/>
+                                        <Span Text="]" TextColor="{StaticResource Cyan}"/>
+                                        <Span Text="&#10;"/>
+                                        <Span Text="└─$ " TextColor="{StaticResource Cyan}"/>
+                                        <Span Text="Ready for operations..." TextColor="{StaticResource TextMuted}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            
+                            <Editor x:Name="LogEditor"
+                                    IsReadOnly="True"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{StaticResource Lime}"
+                                    FontSize="12"
+                                    FontFamily="Consolas"
+                                    AutoSize="TextChanges"
+                                    Margin="0,8,0,0"/>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Grid>
+            </Border>
+            
+        </Grid>
+    </Grid>
+</ContentPage>
